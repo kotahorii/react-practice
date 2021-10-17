@@ -24,3 +24,34 @@ console.log(Object.keys(user));
 console.log(Object.values(user));
 console.log(Object.entries(user));
 
+const greeter = (target: string) => () => {
+  console.log(`Hi ${target}`);
+};
+
+const raise = (a: number, b: number, ...rest: number[]) => {
+  console.log(a);
+  console.log(b);
+  console.log(rest);
+};
+
+raise(1, 2, 3, 4, 5);
+
+const withMultiple = (n: number) => (m: number) => n * m;
+console.log(withMultiple(3)(5));
+
+const triple = withMultiple(3);
+console.log(triple(5));
+
+let count = 0;
+
+const counter = () => {
+  let count = 0;
+
+  const increment = () => (count += 1);
+  return increment;
+};
+
+const counter1 =
+  (count = 0) =>
+  (adds = 1) =>
+    (count += adds);
