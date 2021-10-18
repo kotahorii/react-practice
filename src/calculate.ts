@@ -1,3 +1,5 @@
+import { resolve } from "dns";
+
 export const range = (start: number, end: number) =>
   [...new Array(end - start)].map((_, i) => i).map((n) => n + start);
 
@@ -55,3 +57,28 @@ const counter1 =
   (count = 0) =>
   (adds = 1) =>
     (count += adds);
+
+const isSucceeded = true;
+
+const promise = new Promise((resolve, reject) => {
+  if (isSucceeded) {
+    resolve("Success");
+  } else {
+    reject(new Error("Failure"));
+  }
+});
+
+promise
+  .then((value) => {
+    console.log("1.", value);
+    return "Success again";
+  })
+  .then((value) => {
+    console.log("2.", value);
+  })
+  .catch((error) => {
+    console.log("3.", error);
+  })
+  .finally(() => {
+    console.log("4.", "Completed");
+  });
