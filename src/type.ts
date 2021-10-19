@@ -28,8 +28,6 @@ showName(1, 2, 3, 4);
 const toArrayVariably = <T>(...args: T[]): T[] => [...args];
 toArrayVariably(1, 2, 3, 4, 5);
 
-type Unit = "USD" | "EUR" | "JPY" | "GPB";
-
 type TCurrency = {
   unit: Unit;
   amount: number;
@@ -37,12 +35,26 @@ type TCurrency = {
 
 type A = {
   foo: number;
-  bar?: string;
 };
-type B = { foo: string };
-type C = { bar: string };
-type D = { baz: boolean };
+type B = { bar: string };
+type C = { foo?: number; baz: boolean };
 
-type AorB = A | B;
-type AorC = A | C;
-type AorD = A | D;
+type AnB = A & B;
+type AnC = A & C;
+type CnAorB = (C & A) | B;
+
+type Unit = "USD" | "EUR" | "JPY" | "GBP";
+interface Currency {
+  unit: Unit;
+  amount: number;
+}
+interface IPayment extends Currency {
+  date: Date;
+}
+
+type TPayment = Currency & {
+  date: Date;
+};
+
+const date = new Date("2020-09-01T12:00+0900");
+const pay: TPayment = { unit: "USD", amount: 100, date };
