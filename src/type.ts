@@ -16,3 +16,11 @@ const user = {
 
 const { id, ...rest } = user;
 console.log(id, rest);
+
+const showName = (a: number, b: number, ...rest: number[]) => {
+  console.log(a);
+  console.log(b);
+  console.log(rest);
+};
+
+showName(1, 2, 3, 4);
