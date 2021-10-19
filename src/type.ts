@@ -24,3 +24,13 @@ const showName = (a: number, b: number, ...rest: number[]) => {
 };
 
 showName(1, 2, 3, 4);
+
+const toArrayVariably = <T>(...args: T[]): T[] => [...args];
+toArrayVariably(1, 2, 3, 4, 5);
+
+type Unit = "USD" | "EUR" | "JPY" | "GPB";
+
+type TCurrency = {
+  unit: Unit;
+  amount: number;
+};
