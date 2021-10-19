@@ -103,3 +103,56 @@ type N = Flatten<typeof num>;
 
 type DataFormat = `${number}-${number}-${number}`;
 const date1: DataFormat = "2020-12-15";
+
+const tables = ["users", "posts", "comments"] as const;
+type Table = typeof tables[number];
+type AllSelect = `SELECT * FROM ${Table}`;
+type LimitSelect = `${AllSelect} LIMIT ${number}`;
+
+const createQuery = (table: Table, limit?: number): AllSelect | LimitSelect =>
+  limit
+    ? (`SELECT * FROM ${table} LIMIT ${limit}` as const)
+    : `SELECT * FROM ${table}`;
+
+const query = createQuery("users", 20);
+console.log(query);
+
+const q1 = "SELECT * FROM users";
+const q2 = "SELECT id, body, createdAt FROM posts";
+const q3 = "SELECT userId, postId, FROM comments";
+
+type PickTable<T extends string> = T extends `SELECT ${string} FROM ${infer U}`
+  ? U
+  : never;
+
+type Tables = PickTable<typeof q1 | typeof q2 | typeof q3>;
+
+const foo: unknown = "1,2,3,4";
+if (typeof foo === "string") {
+  console.log(foo.split(","));
+}
+
+type User1 = { username: string; address: { zipcode: string; town: string } };
+
+const isUser = (arg: unknown): arg is User1 => {
+  const u = arg as User1;
+  return (
+    typeof u?.username === "string" &&
+    typeof u?.address?.zipcode === "string" &&
+    typeof u?.address?.town === "string"
+  );
+};
+
+const u1: unknown = JSON.parse("{}");
+const u2: unknown = JSON.parse('{"username":"patty", "address":"Maple Town"}');
+const u3: unknown = JSON.parse(
+  '{"username":"patty","address":{"zipcode":"111","town":"Maple Town"}}'
+);
+
+[u1, u2, u3].forEach((u) => {
+  if (isUser(u)) {
+    console.log(`${u.username} lives in ${u.address.town}`);
+  } else {
+    console.log("It's not User");
+  }
+});
