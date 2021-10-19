@@ -58,3 +58,22 @@ type TPayment = Currency & {
 
 const date = new Date("2020-09-01T12:00+0900");
 const pay: TPayment = { unit: "USD", amount: 100, date };
+
+type Fig = "one" | "two" | "three";
+type FigMap = { [k in Fig]: number };
+
+const permissions = {
+  r: 0b100,
+  w: 0b010,
+  x: 0b001,
+} as const;
+
+type PermsChar = keyof typeof permissions;
+const readable: PermsChar = "r";
+// type PermsNum = typeof permissions[PermsChar];
+
+type ValueOf<T> = T[keyof T];
+type PermsNum = ValueOf<typeof permissions>;
+
+const species = ["rabbit", "bear", "fox", "dog"] as const;
+type Species = typeof species[number];
