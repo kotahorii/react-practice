@@ -77,3 +77,29 @@ type PermsNum = ValueOf<typeof permissions>;
 
 const species = ["rabbit", "bear", "fox", "dog"] as const;
 type Species = typeof species[number];
+
+const override = <T, U extends T>(obj1: T, obj2: U): T & U => ({
+  ...obj1,
+  ...obj2,
+});
+override({ a: 1 }, { a: 24, b: 8 });
+
+type User = { id: unknown };
+type NewUser = User & { id: string };
+type OldUser = User & { id: number };
+type Book = { isbn: string };
+
+type IdOf<T> = T extends User ? T["id"] : never;
+
+type NewUserId = IdOf<NewUser>;
+type OldUserID = IdOf<OldUser>;
+type BookId = IdOf<Book>;
+
+type Flatten<T> = T extends Array<infer U> ? U : T;
+const num = 5;
+const arr = [3, 6, 9];
+type Arr = Flatten<typeof arr>;
+type N = Flatten<typeof num>;
+
+type DataFormat = `${number}-${number}-${number}`;
+const date1: DataFormat = "2020-12-15";
